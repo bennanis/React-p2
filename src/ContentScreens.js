@@ -10,6 +10,130 @@ import { AuthStorage }                                                          
 import { ActionButton, Header }                                                  from './UI';
 import { CardWithNav }                                                           from "./Card";
 
+//--------PROFILEDETAILSSCREEN--------
+export class ProfileDetailsScreen extends Component {
+    static navigationOptions = ({ navigation }) => {
+        return {
+            title: navigation.getParam('name', 'Profile'),
+            drawerLabel: () => null
+        };
+    };
+
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        const owner = this.props.navigation.getParam('owner', null);
+        const nav = this.props.navigation;
+        const props = this.props;
+        return (
+            <View style={styles.profileContainer}>
+                {console.log(JSON.stringify(owner))}
+                <StatusBar
+                    barStyle="light-content"
+                    backgroundColor="#6a51ae"
+                />
+                <View style={styles.profileInfo}>
+                    <Image style={styles.profileAvatar}
+                           source={{ uri: owner.avatar || 'http://www.51allout.co.uk/wp-content/uploads/2012/02/Image-not-found.gif' }}/>
+                    <Text style={styles.profileText}>Joined Clausae : {owner._created || 'quite some time ago'}</Text>
+                    <Text style={styles.profileText}>Total posts : {'a bunch'}</Text>
+                    <Text style={styles.profileText}>Last seen : {'a little while now'}</Text>
+                </View>
+
+                <View style={styles.profileContent}>
+                    <Text style={styles.profileName}>
+                        {owner.name || 'Clausae Member'}
+                    </Text>
+                    <Text style={styles.text}>
+                        Enim iusto ipsa illo architecto quod eligendi reiciendis. Omnis vel veritatis facilis accusamus.
+                        Qui numquam qui dolores corrupti consequatur quasi qui asperiores. Ad reiciendis dolorem ut quia
+                        dolorem sapiente sint.
+                    </Text>
+                    <Text style={styles.light}>12/05/2018 16:09</Text>
+                </View>
+            </View>
+        );
+    }
+}
+
+//--------PROFILESCREEN--------
+export class ProfileScreen extends Component {
+    static navigationOptions = ({ navigation }) => {
+        return {
+            title: 'Profile',
+            drawerLabel: () => 'Profile',
+            drawerIcon: ({ tintColor }) => (
+                <Image
+                    source={{ uri: '../img/user.png' }}
+                    style={{ tintColor: tintColor }}
+                />
+            )
+        };
+    };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: false,
+            user: null
+        };
+    }
+
+    componentDidMount() {
+        AuthStorage.checkLogin().then((data) => {
+            this.setState({ user: data });
+        });
+    }
+
+    render() {
+        const nav = this.props.navigation;
+        const props = this.props;
+
+        if (!this.state.user) {
+            return (
+                <ActivityIndicator
+                    animating={true}
+                    style={styles.indicator}
+                    size="large"
+                />
+            );
+        }
+        return (
+
+            <View style={styles.profileContainer}>
+                {console.log(JSON.stringify(this.state.user))}
+                <StatusBar
+                    barStyle="light-content"
+                    backgroundColor="#6a51ae"
+                />
+
+                <View style={styles.profileInfo}>
+                    <Image style={styles.profileAvatar}
+                           source={require("../img/default-avatar.gif")}/>
+                    <Text style={styles.profileText}>Joined Clausae
+                        : {this.state.user._created || 'quite some time ago'}</Text>
+                    <Text style={styles.profileText}>Total posts : {'a bunch'}</Text>
+                    <Text style={styles.profileText}>Last seen : {'a little while now'}</Text>
+                </View>
+
+                <View style={styles.profileContent}>
+                    <Text style={styles.profileName}>
+                        {this.state.user.name || 'Clausae Member'}
+                    </Text>
+                    <Text style={styles.text}>
+                        Enim iusto ipsa illo architecto quod eligendi reiciendis. Omnis vel veritatis facilis accusamus.
+                        Qui numquam qui dolores corrupti consequatur quasi qui asperiores. Ad reiciendis dolorem ut quia
+                        dolorem sapiente sint.
+                    </Text>
+                    <Text style={styles.light}>12/05/2018 16:09</Text>
+                </View>
+            </View>
+        );
+    }
+}
+
 //--------HOMESCREEN--------
 export class HomeScreen extends Component {
     static navigationOptions = {

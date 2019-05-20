@@ -17,7 +17,9 @@ import {
     SafeAreaView
 }                           from 'react-navigation';
 import {
-    HomeScreen
+    HomeScreen,
+    ProfileDetailsScreen,
+    ProfileScreen
 }                           from './src/ContentScreens';
 import {
     AuthLoadingScreen,
@@ -37,7 +39,9 @@ const customDrawerContentComponent = (props) => (
 
 const AppStack = createDrawerNavigator(
     {
-        Home: HomeScreen
+        Home: HomeScreen,
+		ProfileDetails: ProfileDetailsScreen,
+        Profile: ProfileScreen
     },
     {
         initialRouteName: 'Home',
