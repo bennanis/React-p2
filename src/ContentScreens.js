@@ -8,6 +8,7 @@ import React, { Component }                                                     
 import { ActivityIndicator, FlatList, Image, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { AuthStorage }                                                           from "./StorageManager";
 import { ActionButton, Header }                                                  from './UI';
+import { CardWithNav }                                                           from "./Card";
 
 //--------HOMESCREEN--------
 export class HomeScreen extends Component {
@@ -71,7 +72,19 @@ export class HomeScreen extends Component {
                 />
 
                 {this.state.loading && <Text style={styles.loading} selectable={false}>LOADING...</Text>}
-
+				
+				{!this.state.loading &&
+                <FlatList
+                    style={styles.postsList}
+                    keyExtractor={(item, index) => item._id}
+                    data={this.state.data}
+                    renderItem={({ item }) => <CardWithNav
+                        owner={item.owner[0]}
+                        createdAt={item._created}
+                        text={item.text}
+                    />}
+                />
+                }
 
 
                 <ActionButton offset={{ left: undefined, right: 12, bottom: 16, top: undefined }}
