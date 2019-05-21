@@ -89,7 +89,7 @@ export class LoginScreen extends Component<Props> {
                 }
                 {!this.state.loading &&
                     <View style={styles.loginWrapper}>
-                        <Text style={{ fontSize: 24, fontWeight: 'bold' }}>Welcome hhhh!</Text>
+                        <Text style={{ fontSize: 24, fontWeight: 'bold' }}>Welcome ! !</Text>
                         <Text style={{ fontSize: 16, marginTop: 12 }}>Log in to your Clausae account to continue.</Text>
                         <TextInput
                             multiline={false}
