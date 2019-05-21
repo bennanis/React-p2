@@ -8,31 +8,32 @@ import React, { Component } from 'react';
 import {
     ScrollView,
     StyleSheet
-}                           from 'react-native';
+} from 'react-native';
 import {
     createDrawerNavigator,
     createStackNavigator,
     createSwitchNavigator,
     DrawerItems,
     SafeAreaView
-}                           from 'react-navigation';
+} from 'react-navigation';
 import {
     HomeScreen,
     ProfileDetailsScreen,
     ProfileScreen
-}                           from './src/ContentScreens';
+} from './src/ContentScreens';
 import {
     AuthLoadingScreen,
     LoginScreen,
-	RegisterScreen,
+    RegisterScreen,
+    ForgotPasswordScreen
 
-}                           from './src/AuthScreens';
-import { DrawerHeader }     from "./src/CustomDrawer";
+} from './src/AuthScreens';
+import { DrawerHeader } from "./src/CustomDrawer";
 
 const customDrawerContentComponent = (props) => (
     <ScrollView>
         <SafeAreaView style={styles.container} forceInset={{ top: 'always', horizontal: 'never' }}>
-            <DrawerHeader/>
+            <DrawerHeader />
             <DrawerItems {...props} />
         </SafeAreaView>
     </ScrollView>
@@ -41,7 +42,7 @@ const customDrawerContentComponent = (props) => (
 const AppStack = createDrawerNavigator(
     {
         Home: HomeScreen,
-		ProfileDetails: ProfileDetailsScreen,
+        ProfileDetails: ProfileDetailsScreen,
         Profile: ProfileScreen
     },
     {
@@ -62,7 +63,8 @@ const AppStack = createDrawerNavigator(
 const AuthStack = createStackNavigator(
     {
         Login: LoginScreen,
-		Register: RegisterScreen
+        ForgotPassword: ForgotPasswordScreen,
+        Register: RegisterScreen
     },
     {
         initialRouteName: 'Login',
@@ -91,7 +93,7 @@ const RootStack = createSwitchNavigator(
 
 export default class App extends Component {
     render() {
-        return <RootStack/>;
+        return <RootStack />;
     }
 }
 
