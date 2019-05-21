@@ -137,6 +137,157 @@ export class LoginScreen extends Component<Props> {
 }
 
 
+//--------REGISTERSCREEN--------
+export class RegisterScreen extends Component<Props> {
+    static navigationOptions = {
+        title: 'Register'
+    };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: false,
+            error: "",
+            data: {},
+            username: this.props.navigation.getParam("username", ""),
+            email: "",
+            pwd: "",
+            pwd2: ""
+        };
+    }
+
+    registerUser = () => {
+        const url = 'https://clausae-2f57.restdb.io/rest/people';
+        this.setState({ loading: true });
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'x-apikey': 'b37453b52f8afed8e54b1261b5b96eff9391a'
+            },
+            body: JSON.stringify({
+                name: this.state.username,
+                pwd: this.state.pwd,
+                email: this.state.email,
+                avatar: '../img/default-avatar.gif'
+            })
+        }).then(res => res.json())
+            .then(res => {
+                console.log(JSON.stringify(res));
+                this.setState({
+                    data: res,
+                    loading: false
+                });
+                console.log("res.message=" + res.message + ", res.length=" + Object.keys(res).length);
+                if (!res.message && Object.keys(res).length > 0) { //If not an error from RESTdb
+                    console.log("Valid registration");
+                    //AuthStorage.rememberLogin(res);
+                    //this.props.navigation.navigate('Home');
+                } else {
+                    console.log("Invalid registration");
+                    let listOfErrors = "There is some issues with your data :\n";
+                    for (let err of res.list)
+                        listOfErrors += err.message[0] + '\n';
+
+                    this.setState({ error: listOfErrors });
+                }
+
+            })
+            .catch(error => {
+                this.setState({ error, loading: false });
+            });
+    };
+
+    render() {
+        return (
+            <View style={styles.loginContainer}>
+                <StatusBar
+                    barStyle="light-content"
+                    backgroundColor="#6a51ae"
+                />
+                {this.state.loading &&
+                <Text style={styles.loading} selectable={false}>LOADING...</Text>
+                }
+                {!this.state.loading &&
+                <View style={styles.loginWrapper}>
+                    {this.state.error.length > 0 && <Text style={styles.errorText}>{this.state.error}</Text>}
+                    <Text style={{ fontSize: 16 }}>Fill in this form to create your new Clausae account.</Text>
+                    <TextInput
+                        multiline={false}
+                        blurOnSubmit={false}
+                        autoCorrect={false}
+                        value={this.state.username}
+                        placeholder={"Full name (also your public username)"}
+                        onChangeText={(username) => this.setState({ username })}
+                        keyboardType={'email-address'}
+                        autoFocus={true}
+                        returnKeyType={"next"}
+                        onSubmitEditing={() => this.refs.email.focus()}
+                    />
+                    <TextInput
+                        ref={"email"}
+                        blurOnSubmit={false}
+                        multiline={false}
+                        autoCorrect={false}
+                        placeholder={"E-mail"}
+                        onChangeText={(email) => this.setState({ email })}
+                        keyboardType={'email-address'}
+                        returnKeyType={"next"}
+                        onSubmitEditing={() => this.refs.pwd.focus()}
+                    />
+                    <TextInput
+                        ref={"pwd"}
+                        blurOnSubmit={false}
+                        multiline={false}
+                        autoCorrect={false}
+                        secureTextEntry={true}
+                        placeholder={'Password'}
+                        onChangeText={(pwd) => this.setState({ pwd })}
+                        returnKeyType={"next"}
+                        onSubmitEditing={() => this.refs.pwd2.focus()}
+                    />
+                    <TextInput
+                        ref={"pwd2"}
+                        blurOnSubmit={true}
+                        multiline={false}
+                        autoCorrect={false}
+                        secureTextEntry={true}
+                        placeholder={'Repeat your password'}
+                        onChangeText={(pwd2) => this.setState({ pwd2 })}
+                        returnKeyType={"done"}
+                        onSubmitEditing={() => {
+                            if (this.state.username.length >= 4
+                                && this.state.pwd.length >= 6
+                                && this.state.pwd2.length >= 6
+                                && this.state.email.length >= 9)
+                                this.registerUser()
+                        }}
+                    />
+                    <Button
+                        style={{ marginTop: 8 }}
+                        title="Create my account"
+                        onPress={() => this.registerUser()}
+                        disabled={this.state.username.length < 4
+                        || this.state.pwd.length < 6
+                        || this.state.pwd2.length < 6
+                        || this.state.email.length < 9}
+                    />
+                    <Text style={styles.formAdvice}>
+                        Ensure that :{'\n'}
+                        -Your full name is at least 4 characters{'\n'}
+                        -Your e-mail is at least 9 characters{'\n'}
+                        -Your password is at least 6 characters{'\n'}
+                        -Both password fields are the same{'\n'}
+                    </Text>
+                </View>
+                }
+            </View>
+        );
+    }
+}
+
+
 
 //--------AUTHLOADINGSCREEN--------
 export class AuthLoadingScreen extends Component<Props> {

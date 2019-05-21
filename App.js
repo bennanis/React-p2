@@ -24,6 +24,7 @@ import {
 import {
     AuthLoadingScreen,
     LoginScreen,
+	RegisterScreen,
 
 }                           from './src/AuthScreens';
 import { DrawerHeader }     from "./src/CustomDrawer";
@@ -60,7 +61,8 @@ const AppStack = createDrawerNavigator(
 
 const AuthStack = createStackNavigator(
     {
-        Login: LoginScreen
+        Login: LoginScreen,
+		Register: RegisterScreen
     },
     {
         initialRouteName: 'Login',
