@@ -37,7 +37,7 @@ export class LoginScreen extends Component<Props> {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'x-apikey': 'b37453b52f8afed8e54b1261b5b96eff9391a'
+                'x-apikey': 'HIDDEN_API'
             }
         }).then(res => res.json())
             .then(res => {
@@ -163,7 +163,7 @@ export class ForgotPasswordScreen extends Component<Props> {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'x-apikey': 'b37453b52f8afed8e54b1261b5b96eff9391a'
+                'x-apikey': 'HIDDEN_API'
             }
         }).then(res => res.json())
             .then(res => {
@@ -175,7 +175,7 @@ export class ForgotPasswordScreen extends Component<Props> {
                     fetch(url, {
                         method: 'POST',
                         headers: {
-                            Authorization: 'Bearer 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',
+                            Authorization: 'Bearer HIDDEN_API',
                             Accept: 'application/json',
                             'Content-Type': 'application/json'
                         },
@@ -292,7 +292,7 @@ export class RegisterScreen extends Component<Props> {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'x-apikey': 'b37453b52f8afed8e54b1261b5b96eff9391a'
+                'x-apikey': 'HIDDEN_API'
             },
             body: JSON.stringify({
                 name: this.state.username,
